@@ -29,8 +29,7 @@ INS
 CREATE TABLE `Programas` (
 	`pro_codigo` INT(11) NOT NULL DEFAULT '0',
 	`pro_descripcion` VARCHAR(100) NULL DEFAULT NULL COLLATE 'latin1_spanish_ci'
-)
-;
+);
 
 INSERT INTO `Programas` (`pro_descripcion`) VALUES ('Nomenclatura');
 INSERT INTO `Programas` (`pro_descripcion`) VALUES ('Tipos de Polizas');

@@ -1,0 +1,8 @@
+En este archivo me sirvo comentar algunas cosas que considere pertinentes para la realización de la prueba
+tratare de explicar lo realizado con el fin de poder brindar claridad.
+
+La primera observación que tengo es que la base de datos propuesta no tiene relaciones creadas y uno de los cambios
+que me sirvo realizar es la creación de dichas relaciones y algunos ajustes sobre las columnas.
+Esto con el objetivo de mantener la información integra y evitar que se puedan llegar a duplicar datos y permitir consultas más optimas. 
+Aunque sea una base de datos pequeña es apropiado realizar esta tarea previo a realizar cualquier desarrollo. 
+Dejare en un script llamado modificiaciones.sql las instrucciones aplicadas.
