@@ -88,5 +88,39 @@ CREATE TABLE `Accesos` (
  * */
 
 
+-- Instrucciones SQL usadas en el código
+
+SELECT per_codigo, per_usuario FROM PERSONAL;
+
+SELECT pro_codigo, pro_descripcion FROM PROGRAMAS;
+
+SELECT A.seg_per_codigo USUARIO_COD, P.per_usuario USUARIO, A.seg_pro_codigo PROGRAMA_COD, PR.pro_descripcion PROGRAMA, A.seg_insertar CREAR, A.seg_editar ACTUALIZAR, A.seg_borrar ELIMINAR, A.seg_buscar LEER 
+FROM ACCESOS A
+INNER JOIN PERSONAL P 
+ON A.seg_per_codigo = P.per_codigo
+INNER JOIN PROGRAMAS PR
+ON A.seg_pro_codigo = PR.pro_codigo;
+
+SELECT 
+  A.seg_per_codigo AS USUARIO_COD, 
+  P.per_usuario AS USUARIO, 
+  A.seg_pro_codigo AS PROGRAMA_COD, 
+  PR.pro_descripcion AS PROGRAMA, 
+
+  A.seg_insertar AS CREAR, 
+  IF(A.seg_insertar = 1, 'SI', 'NO') AS CREAR_TXT,
+
+  A.seg_editar AS ACTUALIZAR, 
+  IF(A.seg_editar = 1, 'SI', 'NO') AS ACTUALIZAR_TXT,
+
+  A.seg_borrar AS ELIMINAR, 
+  IF(A.seg_borrar = 1, 'SI', 'NO') AS ELIMINAR_TXT,
+
+  A.seg_buscar AS LEER, 
+  IF(A.seg_buscar = 1, 'SI', 'NO') AS LEER_TXT
+
+FROM ACCESOS A
+INNER JOIN PERSONAL P ON A.seg_per_codigo = P.per_codigo
+INNER JOIN PROGRAMAS PR ON A.seg_pro_codigo = PR.pro_codigo;
 
 
