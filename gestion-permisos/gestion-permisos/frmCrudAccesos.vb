@@ -3,6 +3,8 @@ Imports MySql.Data.MySqlClient
 
 Public Class frm_crud_accesos
 
+    Private tablaAccesos As DataTable
+
     ' Carga de informacion de los usuarios (tabla Personal)
 
     Private Sub CargarUsuarios()
@@ -10,7 +12,7 @@ Public Class frm_crud_accesos
             Dim conexion As MySqlConnection = ClaseConexion.ObtenerConexion()
             conexion.Open()
 
-            Dim comando As New MySqlCommand("SELECT per_codigo AS USUARIO_COD, per_usuario AS USUARIO FROM PERSONAL", conexion)
+            Dim comando As New MySqlCommand("SELECT per_codigo AS USUARIO_COD, per_usuario AS USUARIO FROM PERSONAL WHERE per_estado = 1", conexion)
             Dim adaptador As New MySqlDataAdapter(comando)
             Dim dtUsuarios As New DataTable()
             adaptador.Fill(dtUsuarios)
@@ -75,11 +77,12 @@ Public Class frm_crud_accesos
 
                     FROM ACCESOS A
                     INNER JOIN PERSONAL P ON A.seg_per_codigo = P.per_codigo
-                    INNER JOIN PROGRAMAS PR ON A.seg_pro_codigo = PR.pro_codigo"
+                    INNER JOIN PROGRAMAS PR ON A.seg_pro_codigo = PR.pro_codigo
+                    WHERE p.per_estado = 1"
+            tablaAccesos = New DataTable()
             Dim adaptador As New MySqlDataAdapter(consulta, conexion)
-            Dim tabla As New DataTable()
-            adaptador.Fill(tabla)
-            dgvAccesos.DataSource = tabla
+            adaptador.Fill(tablaAccesos)
+            dgvAccesos.DataSource = tablaAccesos
             dgvAccesos.Columns("USUARIO_COD").Visible = False
             dgvAccesos.Columns("PROGRAMA_COD").Visible = False
             dgvAccesos.Columns("CREAR_C").Visible = False
@@ -90,6 +93,28 @@ Public Class frm_crud_accesos
         Catch ex As Exception
             MessageBox.Show("Error al cargar programas: " & ex.Message)
         End Try
+    End Sub
+
+    Private Sub FiltrarAccesos()
+        If tablaAccesos Is Nothing Then Exit Sub
+
+        Dim filtro As String = ""
+
+        ' Filtro por nombre de usuario
+        If Not String.IsNullOrWhiteSpace(txtBuscarUsuario.Text) Then
+            filtro &= $"USUARIO LIKE '%{txtBuscarUsuario.Text}%'"
+        End If
+
+        ' Filtro por nombre de programa
+        If Not String.IsNullOrWhiteSpace(txtBuscarPrograma.Text) Then
+            If filtro <> "" Then filtro &= " AND "
+            filtro &= $"PROGRAMA LIKE '%{txtBuscarPrograma.Text}%'"
+        End If
+
+        ' Aplicar el filtro
+        Dim vista As New DataView(tablaAccesos)
+        vista.RowFilter = filtro
+        dgvAccesos.DataSource = vista
     End Sub
 
     Private Sub frm_crud_accesos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -247,5 +272,13 @@ Public Class frm_crud_accesos
         Catch ex As Exception
             MessageBox.Show("Error al eliminar: " & ex.Message)
         End Try
+    End Sub
+
+    Private Sub txtBuscarUsuario_TextChanged(sender As Object, e As EventArgs) Handles txtBuscarUsuario.TextChanged
+        FiltrarAccesos()
+    End Sub
+
+    Private Sub txtBuscarPrograma_TextChanged(sender As Object, e As EventArgs) Handles txtBuscarPrograma.TextChanged
+        FiltrarAccesos()
     End Sub
 End Class
