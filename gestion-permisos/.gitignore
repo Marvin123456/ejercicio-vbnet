@@ -1,0 +1,47 @@
+# Archivos y carpetas de compilación
+bin/
+obj/
+
+# Configuración local de usuario de Visual Studio
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vs/
+
+# Archivos temporales
+*.log
+*.tmp
+*.bak
+*.cache
+
+# Archivos de diseño de Visual Studio
+*.Designer.vb
+
+# Paquetes NuGet
+packages/
+*.nupkg
+project.lock.json
+project.assets.json
+
+# Archivos de publicación
+.publish/
+*.pubxml
+*.Publish.xml
+
+# Archivos de base de datos locales
+*.mdf
+*.ldf
+
+# Archivos de configuración de IIS Express
+.vs/
+iisexpress/
+
+# Archivos de sistema
+Thumbs.db
+Desktop.ini
+
+# Archivos de configuración específicos del sistema operativo
+.DS_Store
+ehthumbs.db
+Icon?
